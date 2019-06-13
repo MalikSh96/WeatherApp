@@ -14,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import com.example.weatherapp.helper.HtmlCompat
 import org.json.JSONException
 import org.json.JSONObject
 import java.text.DateFormat
@@ -81,7 +82,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
     fun taskLoadUp(query: String) {
         if (Function.isNetworkAvailable(applicationContext)) {
             val task = DownloadWeather()
@@ -91,12 +91,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     inner class DownloadWeather : AsyncTask<String, Void, String>() {
         override fun onPreExecute() {
             super.onPreExecute()
             loader.visibility = View.VISIBLE
-
         }
 
         override fun doInBackground(vararg args : /*Array<String>*/ String): String? {
@@ -129,23 +127,6 @@ class MainActivity : AppCompatActivity() {
                     )
 
                     loader.visibility = View.GONE
-
-                    /*cityField.text = json.getString("name").toUpperCase(Locale.US) + ", " + json.getJSONObject("sys").getString(
-                        "country")
-                    detailsField.text = details.getString("description").toUpperCase(Locale.US)
-                    currentTemperatureField.text = String.format("%.2f", main.getDouble("temp")) + "°"
-                    humidity_field.text = "Humidity: " + main.getString("humidity") + "%"
-                    pressure_field.text = "Pressure: " + main.getString("pressure") + " hPa"
-                    updatedField.text = df.format(Date(json.getLong("dt") * 1000))
-                    weatherIcon.text = Html.fromHtml(
-                        Function.setWeatherIcon(
-                            details.getInt("id"),
-                            json.getJSONObject("sys").getLong("sunrise") * 1000,
-                            json.getJSONObject("sys").getLong("sunset") * 1000
-                        ))
-
-                    loader.visibility = View.GONE*/
-
                 }
             } catch (e: JSONException) {
                 Toast.makeText(applicationContext, "Error, Check City", Toast.LENGTH_SHORT).show()
