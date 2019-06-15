@@ -7,19 +7,24 @@ import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
-import java.util.*
 
-object Function {
+object HTTP {
 
     fun isNetworkAvailable(context: Context): Boolean {
         return (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo != null
     }
 
+    /**
+     * @param targetUrl the WeatherAPI URL to perform a HTTP exchange to
+     *
+     * performs the actual communication between client and API
+     *
+     * @return a String containing JSON weather data for the given location
+     */
     fun executeGet(targetURL: String): String? {
-        val url: URL = URL(targetURL)
+        val url = URL(targetURL)
         var connection: HttpURLConnection? = url.openConnection() as HttpURLConnection //have to access in finally
         try {
-            //Create connection
             connection = url.openConnection() as HttpURLConnection
             connection.setRequestProperty("content-type", "application/json;  charset=utf-8")
             connection.setRequestProperty("Content-Language", "en-US")
@@ -50,28 +55,5 @@ object Function {
             connection?.disconnect()
         }
         return null
-    }
-
-    fun setWeatherIcon(actualId: Int, sunrise: Long, sunset: Long): String {
-        val id = actualId / 100
-        var icon = ""
-        if (actualId == 800) {
-            val currentTime = Date().time
-            icon = if (currentTime >= sunrise && currentTime < sunset) {
-                "&#xf00d;"
-            } else {
-                "&#xf02e;"
-            }
-        } else {
-            when (id) {
-                2 -> icon = "&#xf01e;"
-                3 -> icon = "&#xf01c;"
-                7 -> icon = "&#xf014;"
-                8 -> icon = "&#xf013;"
-                6 -> icon = "&#xf01b;"
-                5 -> icon = "&#xf019;"
-            }
-        }
-        return icon
     }
 }
