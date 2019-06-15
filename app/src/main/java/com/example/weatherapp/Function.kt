@@ -15,48 +15,11 @@ object Function {
         return (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo != null
     }
 
-    /*fun executeGet(targetURL: String): String? {
-        val url: URL
-        var connection: HttpURLConnection? = null
-        try {
-            //Create connection
-            url = URL(targetURL)
-            connection = url.openConnection() as HttpURLConnection
-            connection.setRequestProperty("content-type", "application/json;  charset=utf-8")
-            connection.setRequestProperty("Content-Language", "en-US")
-            connection.useCaches = false
-            connection.doInput = true
-            connection.doOutput = false
-
-            val `is`: InputStream
-            val status = connection.responseCode
-            if (status != HttpURLConnection.HTTP_OK)
-                `is` = connection.errorStream
-            else
-                `is` = connection.inputStream
-            val rd = BufferedReader(InputStreamReader(`is`))
-            var line: String
-            val response = StringBuffer()
-            line = rd.readLine()
-            while (line != null) {
-                response.append(line)
-                response.append('\r')
-            }
-            rd.close()
-            return response.toString()
-        } catch (e: Exception) {
-            return null
-        } finally {
-            connection?.disconnect()
-        }
-    }*/
-
     fun executeGet(targetURL: String): String? {
-        val url: URL
-        /*lateinit*/ var connection: HttpURLConnection? = null
+        val url: URL = URL(targetURL)
+        var connection: HttpURLConnection? = url.openConnection() as HttpURLConnection //have to access in finally
         try {
             //Create connection
-            url = URL(targetURL)
             connection = url.openConnection() as HttpURLConnection
             connection.setRequestProperty("content-type", "application/json;  charset=utf-8")
             connection.setRequestProperty("Content-Language", "en-US")
@@ -66,6 +29,7 @@ object Function {
 
             val inpstr: InputStream
             val status = connection.responseCode
+
             inpstr = if (status != HttpURLConnection.HTTP_OK)
                 connection.errorStream
             else
@@ -73,8 +37,6 @@ object Function {
             val rd = BufferedReader(InputStreamReader(inpstr))
             var line = rd.readLine()
             val response = StringBuffer()
-            //issue when converting is here
-            //https://stackoverflow.com/questions/52018289/java-lang-outofmemoryerror-failed-to-allocate-a-267911176-byte-allocation-with
             while (line != null) {
                 response.append(line)
                 response.append('\r')
@@ -113,42 +75,3 @@ object Function {
         return icon
     }
 }
-/*
-fun executeGet(targetURL: String): String? {
-        val url: URL
-        /*lateinit*/ var connection: HttpURLConnection? = null
-        try {
-            //Create connection
-            url = URL(targetURL)
-            connection = url.openConnection() as HttpURLConnection
-            connection.setRequestProperty("content-type", "application/json;  charset=utf-8")
-            connection.setRequestProperty("Content-Language", "en-US")
-            connection.useCaches = false
-            connection.doInput = true
-            connection.doOutput = false
-
-            val inpstr: InputStream
-            val status = connection.responseCode
-            inpstr = if (status != HttpURLConnection.HTTP_OK)
-                connection.errorStream
-            else
-                connection.inputStream
-            val rd = BufferedReader(InputStreamReader(inpstr))
-            val line: String
-            val response = StringBuffer()
-            //issue when converting is here
-            line = rd.readLine()
-            while (line != null) {
-                response.append(line)
-                response.append('\r')
-            }
-            rd.close()
-            return response.toString()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        } finally {
-            connection?.disconnect()
-        }
-        return null
-    }
- */
