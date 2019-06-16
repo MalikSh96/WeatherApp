@@ -242,13 +242,13 @@ class MainActivity : AppCompatActivity(), LocationListener {
         }
 
         /**
-         * @param xml a HTTP response in a String XML format
+         * @param json a HTTP response in a String XML format
          * Handles the generation of the UI according to the data from the HTTP response
          * @return Void
          */
-        override fun onPostExecute(xml: String) {
+        override fun onPostExecute(json: String) {
             try {
-                val json = JSONObject(xml)
+                val json = JSONObject(json)
                 if (json != null) {
                     val details = json.getJSONArray("weather").getJSONObject(0)
                     val main = json.getJSONObject("main")
@@ -272,10 +272,12 @@ class MainActivity : AppCompatActivity(), LocationListener {
             }
         }
     }
+
+    //sunset and sunrise UNIX timestamp --- ex. seconds since Jan 01 1970.
     fun setWeatherIcon(actualId: Int, sunrise: Long, sunset: Long): String {
         val id = actualId / 100
         var icon = ""
-        if (actualId == 800) {
+        if (actualId == 800) { //Group 800: Clear
             val currentTime = Date().time
             icon = if (currentTime in sunrise until sunset) { //currentTime >= sunrise && currentTime < sunset
                 "&#xf00d;"
@@ -284,12 +286,12 @@ class MainActivity : AppCompatActivity(), LocationListener {
             }
         } else {
             when (id) {
-                2 -> icon = "&#xf01e;"
-                3 -> icon = "&#xf01c;"
-                7 -> icon = "&#xf014;"
-                8 -> icon = "&#xf013;"
-                6 -> icon = "&#xf01b;"
-                5 -> icon = "&#xf019;"
+                2 -> icon = "&#xf01e;" //Group 2xx: Thunderstorm
+                3 -> icon = "&#xf01c;" //Group 3xx: Drizzle
+                5 -> icon = "&#xf019;" //Group 5xx: Rain
+                6 -> icon = "&#xf01b;" //Group 6xx: Snow
+                7 -> icon = "&#xf014;" //Group 7xx: Atmosphere
+                8 -> icon = "&#xf013;" //Group 80x: Clouds
             }
         }
         return icon
