@@ -153,6 +153,7 @@ class MainActivity : AppCompatActivity(), LocationListener {
             super.onPreExecute()
             loader.visibility = View.VISIBLE
         }
+
         /**
          * @param args latitude and longitude - vararg parameter
          * Handles HTTP message on background thread and initiates [onPostExecute] on completion
