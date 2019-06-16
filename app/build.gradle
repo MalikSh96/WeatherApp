@@ -8,7 +8,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.weatherapp"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -23,6 +23,7 @@ android {
 }
 
 dependencies {
+    implementation'com.github.kittinunf.fuel:fuel-android:2.1.0' //for Android
     implementation 'com.google.android.gms:play-services-location:15.0.1' //for using google location
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
     implementation fileTree(dir: 'libs', include: ['*.jar'])

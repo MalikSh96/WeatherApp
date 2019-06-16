@@ -1,3 +1,8 @@
 <resources>
+    <!--format string has two arguments: %1$s is a string and %2$d is a decimal number.-->
     <string name="app_name">WeatherApp</string>
+    <string name="city_field">%1$s, %2$s</string>
+    <string name="current_temperature_field">%1$s°</string>
+    <string name="humidity_field">Humidity: %1$s %%</string>
+    <string name="pressure_field">Pressure: %1$s hPa</string>
 </resources>
